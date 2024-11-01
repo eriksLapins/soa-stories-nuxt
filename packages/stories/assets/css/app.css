@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind utilities;
+
+:root {
+    --primary: #00606b;
+    --secondary: #f5f5db;
+    --accent: #191971;
+    --background: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #00606b;
+        --secondary: #f5f5db;
+        --accent: #191971;
+        --background: #313131;
+}
+}

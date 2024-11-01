@@ -1,0 +1,21 @@
+{
+    "name": "soa-stories-nuxt",
+    "description": "A simple component display module for nuxt",
+    "version": "0.0.1",
+    "author": "eriksLapins <lapinseriks98@gmail.com>",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/eriksLapins/soa-stories-nuxt.git"
+    },
+    "scripts": {
+      "build": "pnpm --filter @soa-stories-nuxt/stories build",
+      "clean": "pnpm --filter @soa-stories-nuxt/stories clean",
+      "dev": "pnpm --filter @soa-stories-nuxt/stories dev",
+      "start": "pnpm --filter @soa-stories-nuxt/stories start"
+    },
+    "license": "MIT",
+    "resolutions": {
+      "argx": "4.0.4"
+    }
+  }
+  
