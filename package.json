@@ -23,6 +23,9 @@
       "import": "./dist/runtime/utils/index.js",
       "require": "./dist/runtime/utils/index.js",
       "default": "./dist/runtime/utils/index.js"
+    },
+    "./types": {
+      "types": "./dist/runtime/types/index.d.ts"
     }
   },
   "main": "./dist/module.cjs",
@@ -44,8 +47,11 @@
     "@nuxt/kit": "^3.13.1",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxtjs/tailwindcss": "^6.12.2",
+    "acorn": "^8.14.0",
+    "esbuild": "^0.24.0",
     "pathe": "^1.1.2",
+    "tailwindcss": "3.4.14",
     "typescript": "^5.6.3",
-    "tailwindcss": "3.4.14"
+    "unbuild": "^2.0.0"
   }
 }

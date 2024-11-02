@@ -1,5 +1,5 @@
 import { addComponentsDir, addImportsDir, addLayout, createResolver, defineNuxtModule } from '@nuxt/kit';
-import { tailwindPlugin } from './runtime/utils/index';
+import findComponentStories from './runtime/utils/findComponentStories';
 
 const { resolve } = createResolver(import.meta.url);
 
@@ -15,7 +15,7 @@ export default defineNuxtModule({
       "prepare:types": (options) => {
         options.references.push({
             path: resolve('./types/index.ts')
-        })
+        });
       },
       "nitro:build:public-assets": (nitro) => {
         nitro.options.publicAssets.push({
@@ -24,7 +24,7 @@ export default defineNuxtModule({
         })
       },
     },
-    setup(resolvedOptions, nuxt) {
+    async setup(resolvedOptions, nuxt) {
         // adding components
         addComponentsDir({
             path: resolve('./runtime/components'),
@@ -65,7 +65,10 @@ export default defineNuxtModule({
                 resolveFromBase('/layout/**/*.vue'),
                 './.nuxt/soa.vue',
             ])
-        })
+        });
+        if (!nuxt.options._prepare) {
+            await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
+        }
     },
     defaults: {
         meta: {
@@ -74,7 +77,7 @@ export default defineNuxtModule({
         },
         title: 'Soa Stories Nuxt',
         subtitle: 'Our components',
-        componentsDir: '~/components',
+        componentsDir: undefined,
     }
 })
 
