@@ -21,3 +21,9 @@ export type StoryConfig = {
     component: Component,
     variants: StoryConfigVariant[]
 }
+
+export type ResolvedStoryConfig = {
+    name?: string,
+    component: string,
+    variants: StoryConfigVariant[]
+}

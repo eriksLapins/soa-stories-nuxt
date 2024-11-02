@@ -9,4 +9,7 @@ export default defineNuxtConfig({
     existsSync(resolve(__dirname, '../dist/module.mjs')) ? 'soa-stories-nuxt' : '../src/module',
     '@nuxtjs/tailwindcss'
   ],
+  stories: {
+    enabled: true,
+  }
 })

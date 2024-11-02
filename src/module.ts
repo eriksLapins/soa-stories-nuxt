@@ -1,5 +1,6 @@
 import { addComponentsDir, addImportsDir, addLayout, createResolver, defineNuxtModule } from '@nuxt/kit';
 import findComponentStories from './runtime/utils/findComponentStories';
+import type { ResolvedStoryConfig } from './runtime/types';
 
 const { resolve } = createResolver(import.meta.url);
 
@@ -25,6 +26,9 @@ export default defineNuxtModule({
       },
     },
     async setup(resolvedOptions, nuxt) {
+        if (!resolvedOptions.enabled) {
+            return
+        }
         // adding components
         addComponentsDir({
             path: resolve('./runtime/components'),
@@ -68,6 +72,8 @@ export default defineNuxtModule({
         });
         if (!nuxt.options._prepare) {
             await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
+            nuxt.options.alias ||= {};
+            nuxt.options.alias['#build/soa'] = resolve(nuxt.options.srcDir + '.nuxt/soa-components/components.ts')
         }
     },
     defaults: {
@@ -78,6 +84,6 @@ export default defineNuxtModule({
         title: 'Soa Stories Nuxt',
         subtitle: 'Our components',
         componentsDir: undefined,
+        enabled: false,
     }
 })
-

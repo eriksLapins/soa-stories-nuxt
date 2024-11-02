@@ -6,4 +6,5 @@ export interface ModuleOptions {
         subtitle?: string;
     },
     componentsDir?: string; // directory of setup components
+    enabled: boolean;
 }
