@@ -1,6 +1,5 @@
 import { addComponentsDir, addImportsDir, addLayout, createResolver, defineNuxtModule } from '@nuxt/kit';
 import findComponentStories from './runtime/utils/findComponentStories';
-import type { ResolvedStoryConfig } from './runtime/types';
 
 const { resolve } = createResolver(import.meta.url);
 
@@ -16,6 +15,9 @@ export default defineNuxtModule({
       "prepare:types": (options) => {
         options.references.push({
             path: resolve('./types/index.ts')
+        });
+        options.references.push({
+            path: resolve('./types/soa.d.ts')
         });
       },
       "nitro:build:public-assets": (nitro) => {
@@ -50,10 +52,22 @@ export default defineNuxtModule({
         nuxt.options.css.push(resolve('./runtime/assets/css/app.css'));
     
         // adding pages
-        nuxt.hook('pages:extend', (pages) => {
+        nuxt.hook('pages:extend', async (pages) => {
+            if (!nuxt.options._prepare) {
+                await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
+                nuxt.options.alias ||= {};
+                nuxt.options.alias['#soa'] = resolve(nuxt.options.srcDir + '/.nuxt/soa/components.ts')
+            }
             pages.push({
                 path: '/__stories',
                 file: resolve('./runtime/pages/index.vue'),
+                meta: {
+                    layout: 'soa',
+                },
+            });
+            pages.push({
+                path: '/__stories/:component',
+                file: resolve('./runtime/pages/[component].vue'),
                 meta: {
                     layout: 'soa',
                 },
@@ -70,11 +84,6 @@ export default defineNuxtModule({
                 './.nuxt/soa.vue',
             ])
         });
-        if (!nuxt.options._prepare) {
-            await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
-            nuxt.options.alias ||= {};
-            nuxt.options.alias['#build/soa'] = resolve(nuxt.options.srcDir + '.nuxt/soa-components/components.ts')
-        }
     },
     defaults: {
         meta: {

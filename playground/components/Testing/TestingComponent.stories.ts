@@ -7,6 +7,7 @@ generateComponentStory({
         {
             props: [
                 {
+                    name: 'name',
                     value: 'some',
                     type: 'string',
                     required: true,

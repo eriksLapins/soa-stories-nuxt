@@ -3,6 +3,38 @@ import { readdir, existsSync, readFileSync, mkdirSync, writeFileSync } from 'nod
 import {parse, type Expression, type ImportDeclaration, type SpreadElement} from 'acorn';
 import {transform} from 'esbuild';
 import type { ResolvedStoryConfig } from '../types';
+import { createResolver } from '@nuxt/kit';
+
+function resolveComponentToSrcDir(path: string, nuxt: Nuxt) {
+    const componentPath = path
+        .replaceAll('~/', `${nuxt.options.srcDir}/`)
+        .replaceAll('~~/', `${nuxt.options.rootDir}/`);
+    const resolvedCurrentPath = createResolver(import.meta.url).resolve('./runtime/pages');
+    const componentPathParts = componentPath.split('/');
+    const resolvedPathParts = resolvedCurrentPath.split('/');
+    const shortest = componentPathParts.length > resolvedPathParts.length ? resolvedPathParts : componentPathParts;
+    const common: string[] = [];
+    shortest.forEach((part, index) => {
+        if (componentPathParts[index] === resolvedPathParts[index]) {
+            common.push(part)
+        }
+    })
+    const commonPart = common.join('/')
+    const shortComponentPath = componentPath.replace(commonPart, '').split('/').filter(part => part !== '');
+    const shortResolvedPath = resolvedCurrentPath.replace(commonPart, '').split('/').filter(part => part !== '');
+    if (shortResolvedPath.length === 0) {
+        const finalPath = ['.'];
+        finalPath.push(...shortComponentPath);
+        return finalPath.join('/');
+    } else {
+        const finalPath = []
+        for (const _pathPart of shortResolvedPath) {
+            finalPath.push('..');
+        }
+        finalPath.push(...shortComponentPath);
+        return finalPath.join('/');
+    }
+}
 
 export default async (nuxt: Nuxt, path: string) => {
     console.dir(`[stories]: searching for components in ${path}`, {
@@ -11,8 +43,8 @@ export default async (nuxt: Nuxt, path: string) => {
     if (!existsSync(path)) {
         throw new Error(`Path ${path} could not be found`)
     }
-    if (!existsSync(nuxt.options.buildDir + '/soa-components')) {
-        mkdirSync(nuxt.options.buildDir + '/soa-components')
+    if (!existsSync(nuxt.options.buildDir + '/soa')) {
+        mkdirSync(nuxt.options.buildDir + '/soa')
     }
     let filePaths: string[] = [];
     readdir(path, {
@@ -45,7 +77,7 @@ export default async (nuxt: Nuxt, path: string) => {
                     call.callee.name === 'generateComponentStory'
                 ) {
                     const properties = astToObject(call.arguments[0]) as ResolvedStoryConfig;
-                    const componentPath = properties.component.replaceAll('~/', `./`)
+                    const componentPath = resolveComponentToSrcDir(properties.component, nuxt);
                     components.push({
                         ...properties,
                         component: componentPath,
@@ -56,8 +88,8 @@ export default async (nuxt: Nuxt, path: string) => {
         }
     }
     writeFileSync(
-        nuxt.options.buildDir + '/soa-components/components.ts',
-        `export default ${JSON.stringify(components)}`
+        nuxt.options.buildDir + '/soa/components.ts',
+        `export const components = ${JSON.stringify(components)}`
     )
 }
 

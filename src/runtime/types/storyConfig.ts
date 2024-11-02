@@ -3,6 +3,7 @@ import type { Component } from "vue"
 export type StoryPropsTypes = 'string' | 'number' | 'array' | 'object' | 'boolean'
 
 export type StoryConfigProps = {
+    name: string,
     value: unknown,
     type: StoryPropsTypes,
     subtype?: StoryPropsTypes,
