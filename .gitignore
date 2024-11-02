@@ -1,5 +1,8 @@
-/target
-
+# general
+dist
 
 # node
 node_modules
+
+# nuxt
+.nuxt

@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 defineOptions({
-    name: 'defaultLayout'
+    name: 'SoaLayout'
 });
 </script>
 

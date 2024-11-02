@@ -1,4 +1,4 @@
-export type StoryModuleOptions = {
+export interface ModuleOptions {
     title?: string;
     subtitle?: string;
     meta?: {
