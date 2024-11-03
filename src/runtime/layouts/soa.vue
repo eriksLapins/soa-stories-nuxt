@@ -21,7 +21,7 @@
         rel="noreferrer noopener"
         external
       >
-        &copy Eriks Lapins 2024
+        &copy; Eriks Lapins 2024
       </NuxtLink>
       <NuxtLink
         to="https://github.com/eriksLapins/soa-showcase"

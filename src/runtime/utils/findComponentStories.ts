@@ -116,11 +116,10 @@ function astToObject(node: Expression | SpreadElement | ImportDeclaration): any 
       if (source.type === 'Literal') {
         return source.value;
       }
+      break;
     }
     case "Identifier": {
-      if (node.type === 'Identifier') {
-        return node.name;
-      }
+      return node.name;
     }
       // No default
   }

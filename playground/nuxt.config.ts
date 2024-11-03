@@ -12,4 +12,4 @@ export default defineNuxtConfig({
   stories: {
     enabled: true,
   },
-})
+});

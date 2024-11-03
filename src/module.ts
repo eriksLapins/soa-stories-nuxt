@@ -16,9 +16,6 @@ export interface ModuleOptions {
 
 const { resolve } = createResolver(import.meta.url);
 
-function resolveFromBase(directory: string) {
-  return resolve('./runtime') + directory;
-}
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@soa-stories-nuxt/module',
