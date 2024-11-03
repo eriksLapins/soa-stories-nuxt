@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-red-400">
         Hello: {{ name }}
     </div>
 </template>

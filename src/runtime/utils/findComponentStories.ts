@@ -2,7 +2,7 @@ import type { Nuxt } from 'nuxt/schema';
 import { readdir, existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import {parse, type Expression, type ImportDeclaration, type SpreadElement} from 'acorn';
 import {transform} from 'esbuild';
-import type { ResolvedStoryConfig } from '../types';
+import type { ResolvedStoryConfig } from '../../types';
 import { createResolver } from '@nuxt/kit';
 
 function resolveComponentToSrcDir(path: string, nuxt: Nuxt) {

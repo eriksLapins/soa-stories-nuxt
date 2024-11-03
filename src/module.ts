@@ -1,24 +1,34 @@
 import { addComponentsDir, addImportsDir, addLayout, createResolver, defineNuxtModule } from '@nuxt/kit';
 import findComponentStories from './runtime/utils/findComponentStories';
+import { writeFileSync } from 'node:fs';
+export * from './types/index'
+
+export interface ModuleOptions {
+    title?: string;
+    subtitle?: string;
+    meta?: {
+        title?: string;
+        subtitle?: string;
+    },
+    componentsDir?: string; // directory of setup components
+    enabled: boolean;
+}
 
 const { resolve } = createResolver(import.meta.url);
 
 function resolveFromBase(directory: string) {
     return resolve('./runtime') + directory;
 }
-export default defineNuxtModule({
+export default defineNuxtModule<ModuleOptions>({
     meta: {
         name: '@soa-stories-nuxt/module',
         configKey: 'stories',
     },
     hooks: {
       "prepare:types": (options) => {
-        options.references.push({
-            path: resolve('./types/index.ts')
-        });
-        options.references.push({
-            path: resolve('./types/soa.d.ts')
-        });
+        options.tsConfig.compilerOptions.paths['#soa'] = [
+            './soa'
+        ]
       },
       "nitro:build:public-assets": (nitro) => {
         nitro.options.publicAssets.push({
@@ -43,20 +53,27 @@ export default defineNuxtModule({
             filename: 'soa.vue',
             write: true,
         });
-
+        
         // adding other imports
         addImportsDir(resolve('./utils'));
 
         // adding css
         nuxt.options.css ||= [];
         nuxt.options.css.push(resolve('./runtime/assets/css/app.css'));
-    
+        nuxt.options.css.push(resolve('./runtime/assets/css/soa-tw.css'));
+
         // adding pages
         nuxt.hook('pages:extend', async (pages) => {
             if (!nuxt.options._prepare) {
                 await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
-                nuxt.options.alias ||= {};
-                nuxt.options.alias['#soa'] = resolve(nuxt.options.srcDir + '/.nuxt/soa/components.ts')
+                const componentsDir = resolve(nuxt.options.srcDir + '/.nuxt/soa/index.ts')
+                nuxt.options.alias['#soa'] = componentsDir
+                nuxt.options.build.transpile.push(componentsDir)
+                
+                writeFileSync(
+                    nuxt.options.buildDir + '/soa/index.ts',
+                    `export * from './components';`
+                )
             }
             pages.push({
                 path: '/__stories',
@@ -72,17 +89,6 @@ export default defineNuxtModule({
                     layout: 'soa',
                 },
             });
-        });
-        nuxt.hook('tailwindcss:config', (config) => {
-            // @ts-expect-error
-            config.content ||= {};
-            // @ts-ignore
-            config.content?.files.push(...[
-                resolveFromBase('/pages/**/*.vue'),
-                resolveFromBase('/components/**/*.vue'),
-                resolveFromBase('/layout/**/*.vue'),
-                './.nuxt/soa.vue',
-            ])
         });
     },
     defaults: {

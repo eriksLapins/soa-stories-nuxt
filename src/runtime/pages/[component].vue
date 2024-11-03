@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col gap-4">
+    <div class="soa-flex soa-flex-col soa-gap-4">
         <NuxtLink to="/__stories">< Back</NuxtLink>
-        <h1 class="text-lg font-semibold">{{ foundComponent?.name ?? component?.name }}</h1>
+        <h1 class="soa-text-lg soa-font-semibold">{{ foundComponent?.name ?? component?.name }}</h1>
         <component :is="component" v-for="variant in variants" v-bind="variant.props" :key="`${route.params.component}-${variant.key}`"/>
     </div>
 </template>
@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import {components as componentNames} from '#soa';
 import { computed, onMounted, shallowRef, type Component } from 'vue';
-import type { ResolvedStoryConfig } from '../types';
+import type { ResolvedStoryConfig } from '../../types';
 import { useRoute } from '#app';
 
 defineOptions({

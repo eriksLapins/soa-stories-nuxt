@@ -1,4 +1,4 @@
-import { generateComponentStory } from "soa-stories-nuxt/utils";
+import { generateComponentStory } from "soa-stories-nuxt";
 
 generateComponentStory({
     name: 'TestingComponent',

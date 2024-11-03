@@ -1,8 +1,8 @@
 <template>
-    <div class="container mx-auto px-4">
-        <h1 class="text-lg">SortofaShowcase</h1>
-        <div class="w-full flex flex-col gap-2">
-            <NuxtLink :to="`/__stories/${component.name}`" class="w-full"  v-for="(component, index) of components" :key="index">
+    <div class="soa-container soa-mx-auto soa-px-4">
+        <h1 class="soa-text-lg">SortofaShowcase</h1>
+        <div class="soa-w-full soa-flex soa-flex-col soa-gap-2">
+            <NuxtLink :to="`/__stories/${component.name}`" class="soa-w-full"  v-for="(component, index) of components" :key="index">
                 {{ component.name }}
             </NuxtLink>
         </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { components } from '#soa';
+import {components} from '#soa';
 defineOptions({
     name: 'SoaIndex'
 })
