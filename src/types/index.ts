@@ -1,1 +1,1 @@
-export * from './storyConfig'
+export * from './storyConfig';

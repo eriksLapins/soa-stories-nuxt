@@ -1,30 +1,30 @@
-import type { Component } from "vue"
+import type { Component } from "vue";
 
-export type StoryPropsTypes = 'string' | 'number' | 'array' | 'object' | 'boolean'
+export type StoryPropsTypes = 'string' | 'number' | 'array' | 'object' | 'boolean';
 
 export type StoryConfigProps = {
-    name: string,
-    value: unknown,
-    type: StoryPropsTypes,
-    subtype?: StoryPropsTypes,
-    required?: boolean,
-    nullable?: boolean,
-    options?: unknown[],
-}
+  name: string,
+  value: unknown,
+  type: StoryPropsTypes,
+  subtype?: StoryPropsTypes,
+  required?: boolean,
+  nullable?: boolean,
+  options?: unknown[],
+};
 
 export type StoryConfigVariant = {
-    props: StoryConfigProps[],
-    vModel: (string | "modelValue")[],
-}
+  props: StoryConfigProps[],
+  vModel: (string | "modelValue")[],
+};
 
 export type StoryConfig = {
-    name?: string,
-    component: Component,
-    variants: StoryConfigVariant[]
-}
+  name?: string,
+  component: Component,
+  variants: StoryConfigVariant[]
+};
 
 export type ResolvedStoryConfig = {
-    name?: string,
-    component: string,
-    variants: StoryConfigVariant[]
-}
+  name?: string,
+  component: string,
+  variants: StoryConfigVariant[]
+};

@@ -1,21 +1,21 @@
 import { generateComponentStory } from "soa-stories-nuxt";
 
 generateComponentStory({
-    name: 'TestingComponent',
-    component: import('~/components/Testing/TestingComponent.vue'),
-    variants: [
+  name: 'TestingComponent',
+  component: import('~/components/Testing/TestingComponent.vue'),
+  variants: [
+    {
+      props: [
         {
-            props: [
-                {
-                    name: 'name',
-                    value: 'some',
-                    type: 'string',
-                    required: true,
+          name: 'name',
+          value: 'some',
+          type: 'string',
+          required: true,
 
-                }
-            ],
-            vModel: []
         }
-    ]
+      ],
+      vModel: []
+    }
+  ]
     
-})
+});

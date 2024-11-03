@@ -1,10 +1,10 @@
 import { defineBuildConfig } from 'unbuild';
 
 export default defineBuildConfig({
-    failOnWarn: false,
-    externals: [
-        'esbuild',
-        'pnpapi',
-        'acorn'
-    ]
-})
+  failOnWarn: false,
+  externals: [
+    'esbuild',
+    'pnpapi',
+    'acorn'
+  ]
+});
