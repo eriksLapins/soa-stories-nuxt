@@ -9,6 +9,10 @@ export default defineNuxtConfig({
     existsSync(resolve(__dirname, '../dist/module.mjs')) ? 'soa-stories-nuxt' : '../src/module',
     '@nuxtjs/tailwindcss'
   ],
+  alias: {
+    'soa-stories-nuxt': existsSync(resolve(__dirname, '../dist/module.mjs')) ? resolve(__dirname, '../dist/module.mjs') : resolve(__dirname, '../src/module'),
+    'soa-stories-nuxt/utils': existsSync(resolve(__dirname, '../dist/module.mjs')) ? resolve(__dirname, '../dist/runtime/utils/index.mjs') : resolve(__dirname, '../src/runtime/utils'),
+  },
   stories: {
     enabled: true,
   },

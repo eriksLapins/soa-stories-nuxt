@@ -17,14 +17,20 @@ export type StoryConfigVariant = {
   vModel: (string | "modelValue")[],
 };
 
+export type StoryConfigGeneralSettings = {
+  defaultWidth?: number;
+};
+
 export type StoryConfig = {
   name?: string,
+  settings?: StoryConfigGeneralSettings,
   component: Component,
-  variants: StoryConfigVariant[]
+  variants: StoryConfigVariant[],
 };
 
 export type ResolvedStoryConfig = {
   name?: string,
+  settings?: StoryConfigGeneralSettings,
   component: string,
   variants: StoryConfigVariant[]
 };

@@ -1,5 +1,5 @@
 import type { Nuxt } from 'nuxt/schema';
-import { readdir, existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readdir, existsSync, readFileSync, mkdirSync } from 'node:fs';
 import {parse, type Expression, type ImportDeclaration, type SpreadElement} from 'acorn';
 import {transform} from 'esbuild';
 import type { ResolvedStoryConfig } from '../../types';
@@ -88,10 +88,7 @@ export default async (nuxt: Nuxt, path: string) => {
       }
     }
   }
-  writeFileSync(
-    nuxt.options.buildDir + '/soa/components.ts',
-    `export const components = ${JSON.stringify(components)}`
-  );
+  return components;
 };
 
 function astToObject(node: Expression | SpreadElement | ImportDeclaration): any {

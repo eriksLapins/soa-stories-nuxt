@@ -1,6 +1,7 @@
 import { addComponentsDir, addImportsDir, addLayout, createResolver, defineNuxtModule } from '@nuxt/kit';
 import findComponentStories from './runtime/utils/findComponentStories';
 import { writeFileSync } from 'node:fs';
+import type { ResolvedStoryConfig } from './types/index';
 export * from './types/index';
 
 export interface ModuleOptions {
@@ -10,8 +11,9 @@ export interface ModuleOptions {
     title?: string;
     subtitle?: string;
   },
-  componentsDir?: string; // directory of setup components
+  componentsDirs?: string | string[]; // directory of setup components
   enabled: boolean;
+  standalone?: boolean;
 }
 
 const { resolve } = createResolver(import.meta.url);
@@ -62,7 +64,25 @@ export default defineNuxtModule<ModuleOptions>({
     // adding pages
     nuxt.hook('pages:extend', async (pages) => {
       if (!nuxt.options._prepare) {
-        await findComponentStories(nuxt, resolvedOptions.componentsDir ?? nuxt.options.srcDir + '/components');
+        const components: ResolvedStoryConfig[] = [];
+        if (resolvedOptions.componentsDirs) {
+          if (Array.isArray(resolvedOptions.componentsDirs)) {
+            for (const dir of resolvedOptions.componentsDirs) {
+              const resolvedComponents = await findComponentStories(nuxt, dir);
+              components.push(...resolvedComponents);
+            }
+          } else {
+            const resolvedComponents = await findComponentStories(nuxt, resolvedOptions.componentsDirs);
+            components.push(...resolvedComponents);
+          }
+        } else {
+          const resolvedComponents = await findComponentStories(nuxt, nuxt.options.srcDir + '/components');
+          components.push(...resolvedComponents);
+        }
+        writeFileSync(
+          nuxt.options.buildDir + '/soa/components.ts',
+          `export const components = ${JSON.stringify(components)}`
+        );
         const componentsDir = resolve(nuxt.options.srcDir + '/.nuxt/soa/index.ts');
         nuxt.options.alias['#soa'] = componentsDir;
         nuxt.options.build.transpile.push(componentsDir);
@@ -72,15 +92,16 @@ export default defineNuxtModule<ModuleOptions>({
           `export * from './components';`
         );
       }
+      const isStandalone = resolvedOptions.standalone;
       pages.push({
-        path: '/__stories',
+        path: isStandalone ? '/' : '/__stories',
         file: resolve('./runtime/pages/index.vue'),
         meta: {
           layout: 'soa',
         },
       });
       pages.push({
-        path: '/__stories/:component',
+        path: isStandalone ? '/:component' : '/__stories/:component',
         file: resolve('./runtime/pages/[component].vue'),
         meta: {
           layout: 'soa',
@@ -95,7 +116,8 @@ export default defineNuxtModule<ModuleOptions>({
     },
     title: 'Soa Stories Nuxt',
     subtitle: 'Our components',
-    componentsDir: undefined,
+    componentsDirs: undefined,
     enabled: false,
+    standalone: false,
   }
 });

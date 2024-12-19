@@ -554,25 +554,73 @@ video {
   display: none;
 }
 
+.soa-absolute {
+  position: absolute;
+}
+
+.soa-relative {
+  position: relative;
+}
+
+.-soa-right-2 {
+  right: -0.5rem;
+}
+
+.soa-top-1\/2 {
+  top: 50%;
+}
+
 .soa-mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.soa-mr-2 {
+  margin-right: 0.5rem;
+}
+
+.soa-inline-block {
+  display: inline-block;
 }
 
 .soa-flex {
   display: flex;
 }
 
+.soa-grid {
+  display: grid;
+}
+
 .soa-h-10 {
   height: 2.5rem;
+}
+
+.soa-h-8 {
+  height: 2rem;
 }
 
 .soa-h-full {
   height: 100%;
 }
 
+.soa-w-4 {
+  width: 1rem;
+}
+
 .soa-w-full {
   width: 100%;
+}
+
+.soa-grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.soa-grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.soa-grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .soa-flex-col {
@@ -599,6 +647,14 @@ video {
   gap: 1rem;
 }
 
+.soa-rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.soa-border-2 {
+  border-width: 2px;
+}
+
 .soa-border-b-2 {
   border-bottom-width: 2px;
 }
@@ -623,9 +679,33 @@ video {
   background-color: var(--background);
 }
 
+.soa-bg-secondary {
+  background-color: var(--secondary);
+}
+
+.soa-px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .soa-px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.soa-py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.soa-py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.soa-py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .soa-text-lg {
@@ -657,6 +737,10 @@ video {
   }
 }
 
+.hover\:soa-cursor-grab:hover {
+  cursor: grab;
+}
+
 .hover\:soa-underline:hover {
   text-decoration-line: underline;
 }
@@ -665,5 +749,24 @@ video {
   .max-md\:soa-text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:soa-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:soa-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:soa-mx-auto {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
