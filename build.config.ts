@@ -6,5 +6,5 @@ export default defineBuildConfig({
     'esbuild',
     'pnpapi',
     'acorn'
-  ]
+  ],
 });

@@ -4,19 +4,23 @@
       Back
     </NuxtLink>
     <h1 class="soa-text-lg soa-font-semibold">
-      {{ foundComponent?.name ?? component?.name }}
+      {{ foundComponent?.name ?? componentInstance?.name }}
     </h1>
-    <component
-      :is="component"
+    <div
       v-for="variant in variants"
-      v-bind="variant.props"
       :key="`${route.params.component}-${variant.key}`"
-    />
+    >
+      <component
+        :is="componentInstance"
+        v-bind="variant.props"
+      />
+      {{ variant.props }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {components as componentNames} from '#soa';
+import { components as componentNames } from '#soa';
 import { computed, onMounted, shallowRef, type Component } from 'vue';
 import type { ResolvedStoryConfig } from '../../types';
 import { useRoute } from '#app';
@@ -25,7 +29,7 @@ defineOptions({
   name: 'SoaComponent'
 });
 const route = useRoute();
-const component = shallowRef<Component>();
+const componentInstance = shallowRef<Component>();
 const foundComponent = (componentNames as ResolvedStoryConfig[]).find(comp => comp.name === route.params.component);
 
 const variants = computed(() => {
@@ -39,7 +43,8 @@ const variants = computed(() => {
 
 onMounted(async () => {
   if (foundComponent) {
-    component.value = (await import(/* @vite-ignore */ foundComponent.component))['default'];
+    componentInstance.value = (await import(/* @vite-ignore */ foundComponent.component))['default'];
+    console.log(componentInstance.value);
   }
 });
 </script>

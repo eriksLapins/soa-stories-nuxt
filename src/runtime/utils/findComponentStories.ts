@@ -7,9 +7,10 @@ import { createResolver } from '@nuxt/kit';
 
 function resolveComponentToSrcDir(path: string, nuxt: Nuxt) {
   const componentPath = path
-    .replaceAll('~/', `${nuxt.options.srcDir}/`)
-    .replaceAll('~~/', `${nuxt.options.rootDir}/`);
-  const resolvedCurrentPath = createResolver(import.meta.url).resolve('./runtime/pages');
+    .replaceAll('~~/', `${nuxt.options.rootDir}/`)
+    .replaceAll('~/', `${nuxt.options.srcDir}/`);
+  const resolveName = createResolver(import.meta.url).resolve('.').endsWith('dist') ? './runtime/pages' : '../pages';
+  const resolvedCurrentPath = createResolver(import.meta.url).resolve(resolveName);
   const componentPathParts = componentPath.split('/');
   const resolvedPathParts = resolvedCurrentPath.split('/');
   const shortest = componentPathParts.length > resolvedPathParts.length ? resolvedPathParts : componentPathParts;
@@ -27,7 +28,7 @@ function resolveComponentToSrcDir(path: string, nuxt: Nuxt) {
     finalPath.push(...shortComponentPath);
     return finalPath.join('/');
   } else {
-    const finalPath = [];
+    const finalPath: string[] = [];
     for (const _pathPart of shortResolvedPath) {
       finalPath.push('..');
     }
