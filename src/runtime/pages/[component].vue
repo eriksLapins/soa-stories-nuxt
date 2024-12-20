@@ -3,10 +3,13 @@
     v-if="foundComponent"
     class="soa-flex soa-flex-col soa-gap-4 xl:soa-container xl:soa-mx-auto soa-px-4"
   >
-    <NuxtLink :to="config.public.soa.standalone ? `/` : '/__stories'">
+    <NuxtLink
+      :to="config.public.soa.standalone ? `/` : '/__stories'"
+      class="soa-text-base soa-text-black"
+    >
       Back
     </NuxtLink>
-    <h1 class="soa-text-lg soa-font-semibold">
+    <h1 class="soa-text-lg soa-font-semibold soa-text-black">
       {{ foundComponent?.name ?? componentInstance?.name }}
     </h1>
     <div class="soa-mx-auto soa-relative">
@@ -28,7 +31,7 @@
           <div
             class="soa-flex soa-flex-col soa-gap-4 soa-py-10"
           >
-            <h2 class="soa-font-semibold">
+            <h2 class="soa-font-semibold soa-text-black">
               Props
             </h2>
             <div
@@ -45,7 +48,7 @@
                 <div class="soa-inline-block">
                   <span
                     v-if="prop.type !== 'boolean'"
-                    class="soa-mr-2"
+                    class="soa-mr-2 soa-text-black"
                   >{{ prop.name }}:</span>
                   <input
                     v-if="prop.type === 'string' || prop.type === 'number'"
@@ -54,7 +57,7 @@
                     :type="getInputType(prop.type)"
                     :label="prop.name"
                     :placeholder="prop.name"
-                    class="soa-px-2 soa-py-1 soa-border-2 soa-rounded-lg soa-border-primary soa-border-solid"
+                    class="soa-px-2 soa-py-1 soa-border-2 soa-rounded-lg soa-border-primary soa-border-solid placeholder:soa-text-gray-400 soa-text-black"
                   >
                 </div>
               </div>
@@ -75,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { components as componentNames } from '#soa';
+import { components as componentNames } from '#build/soa-components';
 import { computed, onMounted, shallowRef, type Component, type HTMLAttributes, type InputTypeHTMLAttribute } from 'vue';
 import type { StoryPropsTypes, ResolvedStoryConfig } from '../../types';
 import { useRuntimeConfig, useSeoMeta } from '#imports';

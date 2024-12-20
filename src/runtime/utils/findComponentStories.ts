@@ -1,5 +1,5 @@
 import type { Nuxt } from 'nuxt/schema';
-import { readdir, existsSync, readFileSync, mkdirSync } from 'node:fs';
+import { readdir, existsSync, readFileSync } from 'node:fs';
 import {parse, type Expression, type ImportDeclaration, type SpreadElement} from 'acorn';
 import {transform} from 'esbuild';
 import type { ResolvedStoryConfig } from '../../types';
@@ -43,9 +43,6 @@ export default async (nuxt: Nuxt, path: string) => {
   });
   if (!existsSync(path)) {
     throw new Error(`Path ${path} could not be found`);
-  }
-  if (!existsSync(nuxt.options.buildDir + '/soa')) {
-    mkdirSync(nuxt.options.buildDir + '/soa');
   }
   let filePaths: string[] = [];
   readdir(path, {

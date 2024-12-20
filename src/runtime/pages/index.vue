@@ -1,6 +1,6 @@
 <template>
   <div class="soa-container soa-mx-auto soa-px-4">
-    <h1 class="soa-text-lg soa-mb-3">
+    <h1 class="soa-text-lg soa-mb-3 soa-text-black">
       {{ config.public.soa.title }}
     </h1>
     <p class="soa-text-base soa-text-gray-400 soa-mb-6">
@@ -11,7 +11,7 @@
         v-for="(component, index) of components"
         :key="index"
         :to="config.public.soa.standalone ? `/${component.name}` : `/__stories/${component.name}`"
-        class="soa-w-full"
+        class="soa-w-full soa-text-black"
       >
         {{ component.name }}
       </NuxtLink>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig, useSeoMeta } from '#imports';
-import { components } from '#soa';
+import { components } from '#build/soa-components';
 defineOptions({
   name: 'SoaIndex'
 });
