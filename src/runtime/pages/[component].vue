@@ -9,9 +9,21 @@
     >
       Back
     </NuxtLink>
-    <h1 class="soa-text-lg soa-font-semibold soa-text-black">
-      {{ foundComponent?.name ?? componentInstance?.name }}
-    </h1>
+    <div class="soa-flex soa-justify-start soa-gap-10">
+      <h1 class="soa-text-lg soa-font-semibold soa-text-black">
+        {{ foundComponent?.name ?? componentInstance?.name }}
+      </h1>
+      <div>
+        Width:
+        <input
+          v-model="displayWidth"
+          type="range"
+          min="300"
+          max="1024"
+          class="[&::-webkit-slider-thumb]:soa-appearance-none [&::-webkit-slider-thumb]:soa-bg-primary"
+        >
+      </div>
+    </div>
     <div class="soa-mx-auto soa-relative">
       <div
         class="soa-grid soa-grid-cols-1 soa-gap-4"
@@ -23,75 +35,82 @@
         <div
           v-for="(variant, index) in variants"
           :key="`${route.params.component}-${variant.key}`"
+          class="soa-border soa-border-solid soa-border-primary soa-p-4 soa-rounded-2xl"
         >
           <component
             :is="componentInstance"
             v-bind="variant.props"
           />
+          <hr class="soa-mt-4">
           <div
-            class="soa-flex soa-flex-col soa-gap-4 soa-py-10"
+            class="soa-flex soa-flex-col soa-gap-4 soa-py-4"
           >
             <h2 class="soa-font-semibold soa-text-black">
               Props
             </h2>
             <div
               class="soa-grid soa-grid-cols-1 soa-gap-4 soa-py-4"
-              :class="{
-                'md:soa-grid-cols-2': displayWidth > 768,
-                'lg:soa-grid-cols-3': displayWidth > 1024
-              }"
             >
-              <div
+              <template
                 v-for="(prop, idx) in foundComponent.variants[index].props"
                 :key="`${prop.name}-${index}-${idx}`"
               >
-                <div class="soa-inline-block">
-                  <span
-                    v-if="prop.type !== 'boolean'"
-                    class="soa-mr-2 soa-text-black"
-                  >{{ prop.name }}:</span>
-                  <input
-                    v-if="prop.type === 'string' || prop.type === 'number'"
-                    v-model="foundComponent.variants[index].props[idx].value"
-                    :inputmode="getInputmode(prop.type)"
-                    :type="getInputType(prop.type)"
-                    :label="prop.name"
-                    :placeholder="prop.name"
-                    class="soa-px-2 soa-py-1 soa-border-2 soa-rounded-lg soa-border-primary soa-border-solid placeholder:soa-text-gray-400 soa-text-black"
-                  >
-                  
-                  <!-- array (not an object) -->
-                  <div
-                    v-if="prop.type === 'array' && prop.subtype !== 'object'"
-                    class="soa-flex soa-gap-2"
-                  >
-                    <button
-                      v-for="option in (prop.options as string[])"
-                      :key="option"
-                      class="soa-rounded-lg soa-px-2 soa-py-1 soa-border soa-border-solid "
-                      :class="{
-                        'soa-bg-primary soa-text-white soa-border-transparent': (foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
-                        'soa-bg-white soa-border-primary soa-text-black': !(foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
-                      }"
-                      @click="handleArrayClickUpdate(index, idx, option)"
+                <div
+                  v-if="prop.type !== 'object' && prop.type !== 'array'"
+                >
+                  <div class="soa-inline-block">
+                    <span
+                      v-if="prop.type !== 'boolean'"
+                      class="soa-mr-2 soa-text-black"
+                    >{{ prop.name }}:</span>
+                    <input
+                      v-if="prop.type === 'string' || prop.type === 'number'"
+                      v-model="foundComponent.variants[index].props[idx].value"
+                      :inputmode="getInputmode(prop.type)"
+                      :type="getInputType(prop.type)"
+                      :label="prop.name"
+                      :placeholder="prop.name"
+                      class="soa-px-2 soa-py-1 soa-border-2 soa-rounded-lg soa-border-primary soa-border-solid placeholder:soa-text-gray-400 soa-text-black"
                     >
-                      {{ option }}
-                    </button>
+                    <!-- selection -->
+                    <select
+                      v-if="prop.type === 'selection'"
+                      v-model="foundComponent.variants[index].props[idx].value"
+                    >
+                      <option
+                        v-for="option in prop.options"
+                        :key="(resolveSelectedOption(option, prop) as string)"
+                        :value="resolveSelectedOption(option, prop)"
+                      >
+                        {{ resolveSelectedOption(option, prop) }}
+                      </option>
+                    </select>
+                    <!-- multiselect -->
+                    <div
+                      v-if="prop.type === 'multiselect'"
+                      class="soa-flex soa-gap-2"
+                    >
+                      <button
+                        v-for="option in prop.options"
+                        :key="(resolveSelectedOption(option, prop) as string)"
+                        class="soa-rounded-lg soa-px-2 soa-py-1 soa-border soa-border-solid "
+                        :class="{
+                          'soa-bg-primary soa-text-white soa-border-transparent': (foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
+                          'soa-bg-white soa-border-primary soa-text-black': !(foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
+                        }"
+                        @click="handleArrayClickUpdate(index, idx, resolveSelectedOption(option, prop))"
+                      >
+                        {{ resolveSelectedOption(option, prop) }}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </template>
             </div>
           </div>
           <hr v-if="variants && index < (variants.length - 1)">
         </div>
       </div>
-      <div
-        class="soa-w-4 soa-h-8 soa-bg-secondary hover:soa-cursor-grab soa-absolute -soa-right-2 soa-top-1/2"
-        draggable
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-        @drag="handleDrag"
-      />
     </div>
   </div>
 </template>
@@ -99,7 +118,7 @@
 <script setup lang="ts">
 import { components as componentNames } from '#build/soa-components';
 import { computed, onMounted, shallowRef, watch, type Component, type HTMLAttributes, type InputTypeHTMLAttribute } from 'vue';
-import type { StoryPropsTypes, ResolvedStoryConfig } from '../../types';
+import type { StoryPropsTypes, ResolvedStoryConfig, StoryConfigProps } from '../../types';
 import { useRuntimeConfig, useSeoMeta, useRoute } from '#imports';
 import { ref } from 'vue';
 
@@ -119,6 +138,15 @@ const startingPoint = ref<number>();
 function handleDragStart(e: DragEvent) {
   startingPoint.value = e.clientX;
   changingWidth.value = true;
+}
+
+function resolveSelectedOption(option: Record<string, unknown> | unknown, prop: StoryConfigProps) {
+  if (('subtype' in prop && prop.subtype === 'object')) {
+    if (prop.key) {
+      return (option as Record<string, unknown>)[prop.key];
+    } return option;
+  }
+  return option;
 }
 
 function handleDrag(e: DragEvent) {

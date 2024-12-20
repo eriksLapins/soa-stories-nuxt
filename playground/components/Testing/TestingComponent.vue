@@ -4,13 +4,16 @@
       String: {{ name }}
     </div>
     <div>
-      Array: {{ anArray }}
+      Array: {{ multiselect }}
     </div>
     <div>
       Object: {{ anObject }}
     </div>
     <div>
-      Object Array: {{ anObjectArray }}
+      Single select object: {{ singleSelectObject }}
+    </div>
+    <div>
+      Single select object with key: {{ singleSelectObjectWithKey }}
     </div>
   </div>
 </template>
@@ -22,11 +25,12 @@ defineOptions({
 
 defineProps<{
   name: string,
-  anArray: string[],
+  multiselect: string[],
   anObject: {
     some: string,
     key: string[],
   },
-  anObjectArray: Record<string, unknown>[]
+  singleSelectObject: Record<string, unknown>,
+  singleSelectObjectWithKey: string,
 }>();
 </script>
