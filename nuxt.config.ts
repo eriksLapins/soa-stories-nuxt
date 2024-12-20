@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   hooks: {
     'prepare:types': (config) => {
       config.tsConfig.compilerOptions.paths ||= {};
-      config.tsConfig.compilerOptions.paths['#soa'] = [resolve('./playground/.nuxt/soa')];
+      config.tsConfig.compilerOptions.paths['#build/soa-components'] = [resolve('./playground/.nuxt/soa-components.mjs')];
     },
   }
 });
