@@ -676,19 +676,19 @@ video {
 }
 
 .soa-border-primary {
-  border-color: var(--primary);
+  border-color: var(--soa-primary);
 }
 
 .soa-border-b-primary {
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--soa-primary);
 }
 
 .soa-bg-background {
-  background-color: var(--background);
+  background-color: var(--soa-background);
 }
 
 .soa-bg-secondary {
-  background-color: var(--secondary);
+  background-color: var(--soa-secondary);
 }
 
 .soa-px-2 {
@@ -736,22 +736,22 @@ video {
 }
 
 .soa-text-primary {
-  color: var(--primary);
+  color: var(--soa-primary);
 }
 
 :root {
-  --primary: #00606b;
-  --secondary: #f5f5db;
-  --accent: #191971;
-  --background: #ffffff;
+  --soa-primary: #00606b;
+  --soa-secondary: #f5f5db;
+  --soa-accent: #191971;
+  --soa-background: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #00606b;
-    --secondary: #f5f5db;
-    --accent: #191971;
-    --background: #313131;
+    --soa-primary: #00606b;
+    --soa-secondary: #f5f5db;
+    --soa-accent: #191971;
+    --soa-background: #313131;
   }
 }
 
