@@ -3,9 +3,9 @@
     <h1 class="soa-text-lg soa-mb-3">
       {{ config.public.soa.title }}
     </h1>
-    <P class="soa-text-base soa-text-gray-400 soa-mb-6">
+    <p class="soa-text-base soa-text-gray-400 soa-mb-6">
       {{ config.public.soa.subtitle }}
-    </P>
+    </p>
     <div class="soa-w-full soa-flex soa-flex-col soa-gap-2">
       <NuxtLink
         v-for="(component, index) of components"

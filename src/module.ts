@@ -79,7 +79,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // adding css
     nuxt.options.css ||= [];
-    nuxt.options.css.push(resolve('./runtime/assets/css/app.css'));
     nuxt.options.css.push(resolve('./runtime/assets/css/soa-tw.css'));
 
     nuxt.options.runtimeConfig.public ||= {};
