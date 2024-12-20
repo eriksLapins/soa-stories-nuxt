@@ -10,10 +10,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary': 'var(--primary)',
-        'secondary': 'var(--secondary)',
-        'accent': 'var(--accent)',
-        'background': 'var(--background)',
+        'primary': 'var(--soa-primary)',
+        'secondary': 'var(--soa-secondary)',
+        'accent': 'var(--soa-accent)',
+        'background': 'var(--soa-background)',
       },
     }
   },
