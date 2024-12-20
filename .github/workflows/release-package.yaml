@@ -12,6 +12,7 @@ jobs:
         node-version: [20]
     steps:
     - uses: actions/checkout@v4
+    - run: corepack enable
     - name: Install pnpm
       uses: pnpm/action-setup@v4
       with:
@@ -35,6 +36,8 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
+          cache: 'pnpm'
+      - run: pnpm build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
