@@ -2,10 +2,10 @@
   <header class="soa-h-10 soa-border-b-2 soa-border-solid soa-border-b-primary soa-bg-background">
     <div class="soa-container soa-mx-auto soa-px-4 soa-flex soa-items-center soa-justify-center soa-h-full">
       <NuxtLink
-        to="/"
+        :to="$config.public.soa.standalone ? `/` : `/__stories`"
         class="soa-font-semibold soa-text-primary"
       >
-        Showcase Template
+        {{ $config.public.soa.title }}
       </NuxtLink>
     </div>
   </header>
@@ -24,7 +24,7 @@
         &copy; Eriks Lapins 2024
       </NuxtLink>
       <NuxtLink
-        to="https://github.com/eriksLapins/soa-showcase"
+        to="https://github.com/eriksLapins/soa-stories-nuxt"
         class="hover:soa-underline soa-font-semibold soa-text-primary max-md:soa-text-sm"
         target="_blank"
         rel="noreferrer noopener"

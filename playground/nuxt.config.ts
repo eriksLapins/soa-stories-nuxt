@@ -15,5 +15,13 @@ export default defineNuxtConfig({
   },
   stories: {
     enabled: true,
+    componentsDirs: undefined,
+    meta: {
+      title: 'My meta title',
+      description: 'My meta subtitle'
+    },
+    standalone: false,
+    title: 'My stories title',
+    subtitle: 'My Stories subtitle',
   },
 });

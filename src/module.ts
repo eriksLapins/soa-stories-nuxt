@@ -9,11 +9,21 @@ export interface ModuleOptions {
   subtitle?: string;
   meta?: {
     title?: string;
-    subtitle?: string;
+    description?: string;
   },
   componentsDirs?: string | string[]; // directory of setup components
   enabled: boolean;
   standalone?: boolean;
+}
+
+export interface ModulePublicRuntimeConfig {
+  title: string;
+  subtitle: string;
+  meta: {
+    title: string;
+    description: string;
+  },
+  standalone: boolean;
 }
 
 const { resolve } = createResolver(import.meta.url);
@@ -35,6 +45,17 @@ export default defineNuxtModule<ModuleOptions>({
         maxAge: 60 * 60 * 24 * 30,
       });
     },
+  },
+  defaults: {
+    meta: {
+      title: 'Soa Stories Nuxt',
+      description: 'A showcase of all components'
+    },
+    title: 'Soa Stories Nuxt',
+    subtitle: 'Our components',
+    componentsDirs: undefined,
+    enabled: false,
+    standalone: false,
   },
   async setup(resolvedOptions, nuxt) {
     if (!resolvedOptions.enabled) {
@@ -60,6 +81,16 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css ||= [];
     nuxt.options.css.push(resolve('./runtime/assets/css/app.css'));
     nuxt.options.css.push(resolve('./runtime/assets/css/soa-tw.css'));
+
+    nuxt.options.runtimeConfig.public ||= {};
+    Object.assign(nuxt.options.runtimeConfig.public, {
+      soa: {
+        meta: resolvedOptions.meta,
+        title: resolvedOptions.title,
+        subtitle: resolvedOptions.subtitle,
+        standalone: resolvedOptions.standalone
+      }
+    });
 
     // adding pages
     nuxt.hook('pages:extend', async (pages) => {
@@ -109,15 +140,4 @@ export default defineNuxtModule<ModuleOptions>({
       });
     });
   },
-  defaults: {
-    meta: {
-      title: 'Soa Stories Nuxt',
-      subtitle: 'A showcase of all components'
-    },
-    title: 'Soa Stories Nuxt',
-    subtitle: 'Our components',
-    componentsDirs: undefined,
-    enabled: false,
-    standalone: false,
-  }
 });

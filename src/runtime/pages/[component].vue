@@ -3,7 +3,7 @@
     v-if="foundComponent"
     class="soa-flex soa-flex-col soa-gap-4 xl:soa-container xl:soa-mx-auto soa-px-4"
   >
-    <NuxtLink to="/__stories">
+    <NuxtLink :to="config.public.soa.standalone ? `/` : '/__stories'">
       Back
     </NuxtLink>
     <h1 class="soa-text-lg soa-font-semibold">
@@ -78,12 +78,14 @@
 import { components as componentNames } from '#soa';
 import { computed, onMounted, shallowRef, type Component, type HTMLAttributes, type InputTypeHTMLAttribute } from 'vue';
 import type { StoryPropsTypes, ResolvedStoryConfig } from '../../types';
-
-import { useRoute } from '#app';
+import { useRuntimeConfig, useSeoMeta } from '#imports';
 
 defineOptions({
   name: 'SoaComponent'
 });
+
+const config = useRuntimeConfig();
+
 const route = useRoute();
 const componentInstance = shallowRef<Component>();
 const foundComponent = ref<ResolvedStoryConfig | undefined>((componentNames as ResolvedStoryConfig[]).find(comp => comp.name === route.params.component));
@@ -137,5 +139,10 @@ onMounted(async () => {
   if (foundComponent.value) {
     componentInstance.value = (await import(/* @vite-ignore */ foundComponent.value.component))['default'];
   }
+});
+
+useSeoMeta({
+  title: config.public.soa.meta.title,
+  description: config.public.soa.meta.description,
 });
 </script>

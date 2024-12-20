@@ -1,6 +1,6 @@
 {
   "name": "soa-stories-nuxt",
-  "description": "A simple component display module for nuxt",
+  "description": "A simple component display module for Nuxt built with Nuxt",
   "version": "0.0.1",
   "author": "eriksLapins <lapinseriks98@gmail.com>",
   "repository": {
@@ -37,13 +37,12 @@
     "argx": "4.0.4",
     "soa-stories-nuxt": "link:."
   },
-  "dependencies": {
-    "nuxt": "^3.13.1",
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@nuxt/kit": "^3.13.1",
+    "vue": "^3.5.12",
+    "vue-router": "^4.4.5",
+    "nuxt": "^3.13.1",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "acorn": "^8.14.0",
@@ -53,7 +52,7 @@
     "typescript": "^5.6.3",
     "unbuild": "^2.0.0",
     "@nuxt/eslint-config": "^0.3.13",
-    "eslint": "^9.5.0",
-    "eslint-plugin-vue": "^9.26.0"
+    "eslint": "^9.17.0",
+    "eslint-plugin-vue": "^9.32.0"
   }
 }
