@@ -562,12 +562,24 @@ video {
   position: relative;
 }
 
-.-soa-right-2 {
-  right: -0.5rem;
+.-soa-right-4 {
+  right: -1rem;
 }
 
 .soa-top-1\/2 {
   top: 50%;
+}
+
+.-soa-right-2 {
+  right: -0.5rem;
+}
+
+.soa-z-0 {
+  z-index: 0;
+}
+
+.soa-z-\[100\] {
+  z-index: 100;
 }
 
 .soa-mx-auto {
@@ -619,6 +631,12 @@ video {
   width: 100%;
 }
 
+.soa-select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
 .soa-grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -659,6 +677,10 @@ video {
   border-radius: 0.5rem;
 }
 
+.soa-border {
+  border-width: 1px;
+}
+
 .soa-border-2 {
   border-width: 2px;
 }
@@ -679,6 +701,10 @@ video {
   border-color: var(--soa-primary);
 }
 
+.soa-border-transparent {
+  border-color: transparent;
+}
+
 .soa-border-b-primary {
   border-bottom-color: var(--soa-primary);
 }
@@ -687,8 +713,17 @@ video {
   background-color: var(--soa-background);
 }
 
+.soa-bg-primary {
+  background-color: var(--soa-primary);
+}
+
 .soa-bg-secondary {
   background-color: var(--soa-secondary);
+}
+
+.soa-bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .soa-px-2 {
@@ -730,6 +765,11 @@ video {
   font-weight: 600;
 }
 
+.soa-text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .soa-text-gray-400 {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -737,6 +777,11 @@ video {
 
 .soa-text-primary {
   color: var(--soa-primary);
+}
+
+.soa-text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 :root {
@@ -753,6 +798,16 @@ video {
     --soa-accent: #191971;
     --soa-background: #313131;
   }
+}
+
+.placeholder\:soa-text-gray-400::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.placeholder\:soa-text-gray-400::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .hover\:soa-cursor-grab:hover {

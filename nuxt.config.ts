@@ -10,5 +10,5 @@ export default defineNuxtConfig({
       config.tsConfig.compilerOptions.paths ||= {};
       config.tsConfig.compilerOptions.paths['#build/soa-components'] = [resolve('./playground/.nuxt/soa-components.mjs')];
     },
-  }
+  },
 });

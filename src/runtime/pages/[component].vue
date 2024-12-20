@@ -59,6 +59,25 @@
                     :placeholder="prop.name"
                     class="soa-px-2 soa-py-1 soa-border-2 soa-rounded-lg soa-border-primary soa-border-solid placeholder:soa-text-gray-400 soa-text-black"
                   >
+                  
+                  <!-- array (not an object) -->
+                  <div
+                    v-if="prop.type === 'array' && prop.subtype !== 'object'"
+                    class="soa-flex soa-gap-2"
+                  >
+                    <button
+                      v-for="option in (prop.options as string[])"
+                      :key="option"
+                      class="soa-rounded-lg soa-px-2 soa-py-1 soa-border soa-border-solid "
+                      :class="{
+                        'soa-bg-primary soa-text-white soa-border-transparent': (foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
+                        'soa-bg-white soa-border-primary soa-text-black': !(foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
+                      }"
+                      @click="handleArrayClickUpdate(index, idx, option)"
+                    >
+                      {{ option }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -79,9 +98,10 @@
 
 <script setup lang="ts">
 import { components as componentNames } from '#build/soa-components';
-import { computed, onMounted, shallowRef, type Component, type HTMLAttributes, type InputTypeHTMLAttribute } from 'vue';
+import { computed, onMounted, shallowRef, watch, type Component, type HTMLAttributes, type InputTypeHTMLAttribute } from 'vue';
 import type { StoryPropsTypes, ResolvedStoryConfig } from '../../types';
-import { useRuntimeConfig, useSeoMeta } from '#imports';
+import { useRuntimeConfig, useSeoMeta, useRoute } from '#imports';
+import { ref } from 'vue';
 
 defineOptions({
   name: 'SoaComponent'
@@ -143,7 +163,21 @@ onMounted(async () => {
     componentInstance.value = (await import(/* @vite-ignore */ foundComponent.value.component))['default'];
   }
 });
+function handleArrayClickUpdate(index: number, idx: number, option: unknown) {
+  const currentValue = foundComponent.value?.variants[index].props[idx].value as unknown[];
+  const foundIndex = currentValue.findIndex(item => JSON.stringify(item) === JSON.stringify(option));
+  if (foundIndex > -1) {
+    (foundComponent.value?.variants[index].props[idx].value as unknown[]).splice(foundIndex, 1);
+  } else {
+    (foundComponent.value?.variants[index].props[idx].value as unknown[]).push(option);
+  }
+}
 
+watch(displayWidth, (newValue) => {
+  if (newValue < 300) {
+    displayWidth.value = 300;
+  }
+});
 useSeoMeta({
   title: config.public.soa.meta.title,
   description: config.public.soa.meta.description,
