@@ -80,7 +80,7 @@
                       <option
                         v-for="option in prop.options"
                         :key="(resolveSelectedOption(option, prop) as string)"
-                        :value="resolveSelectedOption(option, prop)"
+                        :value="resolveSelectedOption(option, prop, true)"
                       >
                         {{ resolveSelectedOption(option, prop) }}
                       </option>
@@ -95,10 +95,10 @@
                         :key="(resolveSelectedOption(option, prop) as string)"
                         class="soa-rounded-lg soa-px-2 soa-py-1 soa-border soa-border-solid "
                         :class="{
-                          'soa-bg-primary soa-text-white soa-border-transparent': (foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
-                          'soa-bg-white soa-border-primary soa-text-black': !(foundComponent.variants[index].props[idx].value as unknown[]).includes(option),
+                          'soa-bg-primary soa-text-white soa-border-transparent': (foundComponent.variants[index].props[idx].value as unknown[]).includes(resolveSelectedOption(option, prop, true)),
+                          'soa-bg-white soa-border-primary soa-text-black': !(foundComponent.variants[index].props[idx].value as unknown[]).includes(resolveSelectedOption(option, prop, true)),
                         }"
-                        @click="handleArrayClickUpdate(index, idx, resolveSelectedOption(option, prop))"
+                        @click="handleArrayClickUpdate(index, idx, resolveSelectedOption(option, prop, true))"
                       >
                         {{ resolveSelectedOption(option, prop) }}
                       </button>
@@ -132,32 +132,25 @@ const route = useRoute();
 const componentInstance = shallowRef<Component>();
 const foundComponent = ref<ResolvedStoryConfig | undefined>((componentNames as ResolvedStoryConfig[]).find(comp => comp.name === route.params.component));
 const displayWidth = ref(foundComponent.value?.settings?.defaultWidth ?? 300);
-const changingWidth = ref(false);
-const startingPoint = ref<number>();
 
-function handleDragStart(e: DragEvent) {
-  startingPoint.value = e.clientX;
-  changingWidth.value = true;
-}
-
-function resolveSelectedOption(option: Record<string, unknown> | unknown, prop: StoryConfigProps) {
+function resolveSelectedOption(option: Record<string, unknown> | unknown, prop: StoryConfigProps, resolveToKey = false) {
   if (('subtype' in prop && prop.subtype === 'object')) {
-    if (prop.key) {
-      return (option as Record<string, unknown>)[prop.key];
-    } return option;
+    if (resolveToKey) {
+      if (prop.key) {
+        return (option as Record<string, unknown>)[prop.key];
+      } else if (prop.titleKey) {
+        return (option as Record<string, unknown>)[prop.titleKey];
+      };
+    } else {
+      if (prop.titleKey) {
+        return (option as Record<string, unknown>)[prop.titleKey];
+      } else if (prop.key) {
+        return (option as Record<string, unknown>)[prop.key];
+      };
+    }
+    return option;
   }
   return option;
-}
-
-function handleDrag(e: DragEvent) {
-  if (startingPoint.value && changingWidth.value && e.clientX !== 0) {
-    displayWidth.value += e.clientX - startingPoint.value;
-  }
-  startingPoint.value = e.clientX;
-}
-
-function handleDragEnd(_e: DragEvent) {
-  changingWidth.value = false;
 }
 
 const variants = computed(() => {

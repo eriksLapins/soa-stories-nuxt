@@ -22,7 +22,6 @@
 defineOptions({
   name: 'TestingComponent'
 });
-
 defineProps<{
   name: string,
   multiselect: string[],

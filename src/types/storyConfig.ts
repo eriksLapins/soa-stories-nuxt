@@ -13,6 +13,7 @@ export type StoryConfigProps = {
   type: 'array' | 'selection' | 'multiselect',
   subtype: 'object',
   key?: string,
+  titleKey?: string,
   options: unknown[]
 } | {
   type: 'array' | 'selection' | 'multiselect',

@@ -1,29 +1,7 @@
 import { addComponentsDir, addImportsDir, addLayout, addTemplate, createResolver, defineNuxtModule } from '@nuxt/kit';
 import findComponentStories from './runtime/utils/findComponentStories';
-import type { ResolvedStoryConfig } from './types/index';
+import type { ModuleOptions, ResolvedStoryConfig } from './types/index';
 export * from './types/index';
-
-export interface ModuleOptions {
-  title?: string;
-  subtitle?: string;
-  meta?: {
-    title?: string;
-    description?: string;
-  },
-  componentsDirs?: string | string[]; // directory of setup components
-  enabled: boolean;
-  standalone?: boolean;
-}
-
-export interface ModulePublicRuntimeConfig {
-  title: string;
-  subtitle: string;
-  meta: {
-    title: string;
-    description: string;
-  },
-  standalone: boolean;
-}
 
 const { resolve } = createResolver(import.meta.url);
 
@@ -75,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css ||= [];
     nuxt.options.css.push(resolve('./runtime/assets/css/soa-tw.css'));
 
-    nuxt.options.runtimeConfig.public ||= {};
+    // adding runtimeconfig object
     Object.assign(nuxt.options.runtimeConfig.public, {
       soa: {
         meta: resolvedOptions.meta,
