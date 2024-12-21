@@ -55,7 +55,6 @@ generateComponentStory({
           value: 'some',
           type: 'string',
           required: true,
-
         }
       ],
       vModel: []
@@ -70,6 +69,6 @@ generateComponentStory({
 - **settings:** set the default width for the component display - defaults to 300 (with min width set to 300px)
 - **variants:** an array of variants for the component to display (so you can display multiple presets)
   - **props:** an array of objects in the form defined by the [StoryConfigProps](src/types/storyConfig.ts) type
-    - only string, number, and boolean types are actually implemented at the moment
-    - subtype, required, nullable, and options are not yet implemented
+    - only string, number, selection, multiselect and boolean types are actually implemented as adjustable props at the moment (check the example above for more details)
+    - required and nullable are not yet implemented
   - **vModel:** not yet implemented
