@@ -14,10 +14,118 @@ generateComponentStory({
           value: 'some',
           type: 'string',
           required: true,
-
+        },
+        {
+          name: 'multiselect',
+          value: [],
+          type: 'multiselect',
+          subtype: 'string',
+          options: ['some', 'new', 'option'],
+        },
+        {
+          name: 'anObject',
+          value: {
+            some: 'key',
+            key: []
+          },
+          type: 'object'
+        },
+        {
+          name: 'singleSelectObject',
+          value: {
+            default: 'key',
+          },
+          type: 'selection',
+          subtype: 'object',
+          options: [
+            {
+              some: 'key',
+            },
+            {
+              some: 'another'
+            }
+          ]
+        },
+        {
+          name: 'singleSelectObjectWithKey',
+          value: 'key',
+          type: 'selection',
+          subtype: 'object',
+          key: 'some',
+          options: [
+            {
+              some: 'key',
+            },
+            {
+              some: 'another'
+            }
+          ]
         }
       ],
-      vModel: []
+      vModel: [
+
+        
+      ]
+    },
+    {
+      props: [
+        {
+          name: 'name',
+          value: 'new name',
+          type: 'string',
+          required: true,
+        },
+        {
+          name: 'multiselect',
+          value: ['new', 'option'],
+          type: 'multiselect',
+          subtype: 'string',
+          options: ['some', 'new', 'option'],
+        },
+        {
+          name: 'anObject',
+          value: {
+            some: 'key',
+            key: []
+          },
+          type: 'object'
+        },
+        {
+          name: 'singleSelectObject',
+          value: {
+            some: 'key',
+          },
+          type: 'selection',
+          subtype: 'object',
+          options: [
+            {
+              some: 'key',
+            },
+            {
+              some: 'another'
+            }
+          ]
+        },
+        {
+          name: 'singleSelectObjectWithKey',
+          value: 'another',
+          type: 'selection',
+          subtype: 'object',
+          key: 'some',
+          options: [
+            {
+              some: 'key',
+            },
+            {
+              some: 'another'
+            }
+          ]
+        }
+      ],
+      vModel: [
+
+        
+      ]
     }
   ]
     
