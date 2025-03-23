@@ -9,7 +9,7 @@
       </NuxtLink>
     </div>
   </header>
-  <div class="main-layout soa-bg-background">
+  <div class="main-layout soa-bg-background soa-py-5 md:soa-py-10">
     <slot />
   </div>
   <footer class="soa-w-full soa-h-10 soa-border-t soa-border-solid soa-border-primary soa-bg-background">

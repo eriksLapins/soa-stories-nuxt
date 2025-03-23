@@ -1,35 +1,116 @@
 import type { Component } from "vue";
 
-export type StoryPropsTypes = 'string' | 'number' | 'array' | 'object' | 'boolean' | 'selection' | 'multiselect';
+export type StoryPropsTypes = 'string' | 'number' | 'array' | 'object' | 'boolean' | 'selection' | 'multiselect' | 'addOnArray';
 
-export type StoryConfigProps = {
+export type StoryPropsSimple = {
+  type: 'string',
+  value: string,
+} | {
+  type: 'number',
+  value: number,
+} | {
+  type: 'boolean',
+  value: boolean,
+};
+
+// primitive arrays
+export type StoryPropsArraySimpleSelection = {
+  type: 'selection',
+} & ({
+  subtype: 'string',
+  options: string[],
+  value: string,
+} | {
+  subtype: 'number',
+  options: number[],
+  value: number,
+} | {
+  subtype: 'boolean',
+  options: boolean[],
+  value: boolean,
+});
+
+export type StoryPropsArraySimpleMultiSelection = {
+  type: 'multiselect',
+} & ({
+  subtype: 'string',
+  options: string[],
+  value: string[],
+} | {
+  subtype: 'number',
+  options: number[],
+  value: number[],
+} | {
+  subtype: 'boolean',
+  options: boolean[],
+  value: boolean[],
+});
+
+export type StoryPropsArrayNoSelection = {
+  type: 'array' | 'addOnArray',
+} & ({
+  subtype: 'string',
+  value: string[],
+} | {
+  subtype: 'number',
+  value: number[],
+} | {
+  subtype: 'boolean',
+  value: boolean[],
+});
+
+export type StoryPropsArraySimple = StoryPropsArraySimpleSelection | StoryPropsArraySimpleMultiSelection | StoryPropsArrayNoSelection;
+
+// object arrays
+
+export type StoryPropsArrayObjectSelection<T = unknown> = {
+  type: 'selection',
+  subtype: 'object',
+  key?: string,
+  titleKey?: string,
+  options: T[],
+};
+
+export type StoryPropsArrayObjectMultiSelection<T = unknown> = {
+  type: 'multiselect',
+  subtype: 'object',
+  key?: string,
+  titleKey?: string,
+  options: T[],
+};
+
+export type StoryPropsArrayObjectNoSelection<T = unknown> = {
+  type: 'array' | 'addOnArray',
+  subtype: 'object',
+  key?: string,
+  titleKey?: string,
+  value: T[],
+};
+
+export type StoryPropsArrayObject<T = unknown> = StoryPropsArrayObjectSelection<T> | StoryPropsArrayObjectMultiSelection<T> | StoryPropsArrayObjectNoSelection<T>;
+
+export type StoryPropsObject<T = unknown> = {
+  type: 'object',
+  value: T,
+};
+
+export type StoryPropsAny<T = unknown> = StoryPropsSimple | StoryPropsArrayObject<T> | StoryPropsArraySimple | StoryPropsObject<T>;
+
+export type StoryConfigProps<T = unknown> = {
   name: string,
   value: unknown,
   required?: boolean,
   nullable?: boolean,
-} & ({
-  type: 'string' | 'number' | 'boolean',
-} | {
-  type: 'array' | 'selection' | 'multiselect',
-  subtype: 'object',
-  key?: string,
-  titleKey?: string,
-  options: unknown[]
-} | {
-  type: 'array' | 'selection' | 'multiselect',
-  subtype: 'string' | 'number' | 'array' | 'boolean' | 'selection' | 'multiselect',
-  options: unknown[]
-} | {
-  type: 'object',
-});
+} & StoryPropsAny<T>;
 
 export type StoryConfigVariant = {
   props: StoryConfigProps[],
-  vModel: (string | "modelValue")[],
+  vModel?: (string | "modelValue")[],
 };
 
 export type StoryConfigGeneralSettings = {
-  defaultWidth?: number;
+  defaultWidth?: number,
+  maxWidth?: number,
 };
 
 export type StoryConfig = {
@@ -43,5 +124,5 @@ export type ResolvedStoryConfig = {
   name?: string,
   settings?: StoryConfigGeneralSettings,
   component: string,
-  variants: StoryConfigVariant[]
+  variants: StoryConfigVariant[],
 };

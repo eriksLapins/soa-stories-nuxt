@@ -1,7 +1,7 @@
 {
   "name": "soa-stories-nuxt",
   "description": "A simple component display module for Nuxt built with Nuxt",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "eriksLapins <lapinseriks98@gmail.com>",
   "repository": {
     "type": "git",
@@ -39,21 +39,21 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@nuxt/kit": "^3.13.1",
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5",
-    "nuxt": "^3.13.1",
+    "@nuxt/kit": "^3.16.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "nuxt": "^3.16.1",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxtjs/tailwindcss": "^6.12.2",
-    "acorn": "^8.14.0",
-    "esbuild": "^0.24.0",
-    "pathe": "^1.1.2",
+    "@nuxtjs/tailwindcss": "^6.13.2",
+    "acorn": "^8.14.1",
+    "esbuild": "^0.25.1",
+    "pathe": "^2.0.3",
     "tailwindcss": "3.4.14",
-    "typescript": "^5.6.3",
-    "unbuild": "^2.0.0",
-    "@nuxt/eslint-config": "^0.3.13",
-    "eslint": "^9.17.0",
-    "eslint-plugin-vue": "^9.32.0"
+    "typescript": "^5.8.2",
+    "unbuild": "^3.5.0",
+    "@nuxt/eslint-config": "^1.2.0",
+    "eslint": "^9.23.0",
+    "eslint-plugin-vue": "^10.0.0"
   },
   "packageManager": "pnpm@9.7.1"
 }

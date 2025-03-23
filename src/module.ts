@@ -28,6 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
     componentsDirs: undefined,
     enabled: false,
     standalone: false,
+    debug: false,
   },
   async setup(resolvedOptions, nuxt) {
     if (!resolvedOptions.enabled) {
@@ -59,7 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
         meta: resolvedOptions.meta,
         title: resolvedOptions.title,
         subtitle: resolvedOptions.subtitle,
-        standalone: resolvedOptions.standalone
+        standalone: resolvedOptions.standalone,
       }
     });
 

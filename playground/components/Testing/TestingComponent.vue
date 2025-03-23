@@ -10,6 +10,9 @@
       Object: {{ anObject }}
     </div>
     <div>
+      Single select primitive: {{ selectionString }}
+    </div>
+    <div>
       Single select object: {{ singleSelectObject }}
     </div>
     <div>
@@ -25,6 +28,7 @@ defineOptions({
 defineProps<{
   name: string,
   multiselect: string[],
+  selectionString: string[],
   anObject: {
     some: string,
     key: string[],

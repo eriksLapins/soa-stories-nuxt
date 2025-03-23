@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   stories: {
     enabled: true,
+    debug: true,
     componentsDirs: undefined,
     meta: {
       title: 'My meta title',

@@ -19,7 +19,7 @@
           v-model="displayWidth"
           type="range"
           min="300"
-          max="1024"
+          :max="maxWidth"
           class="[&::-webkit-slider-thumb]:soa-appearance-none [&::-webkit-slider-thumb]:soa-bg-primary"
         >
       </div>
@@ -63,6 +63,15 @@
                       v-if="prop.type !== 'boolean'"
                       class="soa-mr-2 soa-text-black"
                     >{{ prop.name }}:</span>
+                    <div v-if="prop.type === 'addOnArray'">
+                      <button @click="handleAddOnArrayClick('remove', prop as StoryConfigPropsWithArray)">
+                        -
+                      </button>
+                      {{ (prop as StoryConfigPropsWithArray).value.length }}
+                      <button @click="handleAddOnArrayClick('add', prop as StoryConfigPropsWithArray)">
+                        +
+                      </button>
+                    </div>
                     <input
                       v-if="prop.type === 'string' || prop.type === 'number'"
                       v-model="foundComponent.variants[index].props[idx].value"
@@ -127,25 +136,32 @@ defineOptions({
 });
 
 const config = useRuntimeConfig();
+type StoryConfigPropsWithArray = StoryConfigProps & { value: unknown[] };
 
 const route = useRoute();
 const componentInstance = shallowRef<Component>();
 const foundComponent = ref<ResolvedStoryConfig | undefined>((componentNames as ResolvedStoryConfig[]).find(comp => comp.name === route.params.component));
 const displayWidth = ref(foundComponent.value?.settings?.defaultWidth ?? 300);
+const maxWidth = ref(foundComponent.value?.settings?.maxWidth ?? 1024);
 
 function resolveSelectedOption(option: Record<string, unknown> | unknown, prop: StoryConfigProps, resolveToKey = false) {
   if (('subtype' in prop && prop.subtype === 'object')) {
+    const resolvedProp = {
+      key: undefined,
+      titleKey: undefined,
+      ...prop,
+    };
     if (resolveToKey) {
-      if (prop.key) {
-        return (option as Record<string, unknown>)[prop.key];
-      } else if (prop.titleKey) {
-        return (option as Record<string, unknown>)[prop.titleKey];
+      if (resolvedProp.key) {
+        return (option as Record<string, unknown>)[resolvedProp.key];
+      } else if (resolvedProp.titleKey) {
+        return (option as Record<string, unknown>)[resolvedProp.titleKey];
       };
     } else {
-      if (prop.titleKey) {
-        return (option as Record<string, unknown>)[prop.titleKey];
-      } else if (prop.key) {
-        return (option as Record<string, unknown>)[prop.key];
+      if (resolvedProp.titleKey) {
+        return (option as Record<string, unknown>)[resolvedProp.titleKey];
+      } else if (resolvedProp.key) {
+        return (option as Record<string, unknown>)[resolvedProp.key];
       };
     }
     return option;
@@ -191,6 +207,16 @@ function handleArrayClickUpdate(index: number, idx: number, option: unknown) {
     (foundComponent.value?.variants[index].props[idx].value as unknown[]).splice(foundIndex, 1);
   } else {
     (foundComponent.value?.variants[index].props[idx].value as unknown[]).push(option);
+  }
+}
+
+function handleAddOnArrayClick(action: 'add' | 'remove', prop: StoryConfigPropsWithArray) {
+  const length = prop.value.length;
+  const lastItem = prop.value[length - 1];
+  if (action === 'add') {
+    prop.value.push(lastItem);
+  } else {
+    prop.value.pop();
   }
 }
 

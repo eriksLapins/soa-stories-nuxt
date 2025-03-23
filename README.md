@@ -46,6 +46,7 @@ generateComponentStory({
   component: import('~/components/Testing/TestingComponent.vue'),
   settings: {
     defaultWidth: 500,
+    maxWidth: 1024,
   },
   variants: [
     {
@@ -69,6 +70,8 @@ generateComponentStory({
 - **settings:** set the default width for the component display - defaults to 300 (with min width set to 300px)
 - **variants:** an array of variants for the component to display (so you can display multiple presets)
   - **props:** an array of objects in the form defined by the [StoryConfigProps](src/types/storyConfig.ts) type
-    - only string, number, selection, multiselect and boolean types are actually implemented as adjustable props at the moment (check the [example](playground/components/Testing/TestingComponent.stories.ts) for more info on how-to)
+    - only string, number, selection, addOnArray multiselect and boolean types are actually implemented as adjustable props at the moment (check the [example](playground/components/Testing/TestingComponent.stories.ts) for more info on how-to)
+    - addOnArray type adds a '+' and '-' button to the props section under the specific prop, and allows to increase or decrease option count (currently just takes the last option as the one to add)
     - required and nullable are not yet implemented
+    - for better type hinting, it is suggested to put type and subtype on the top of the prop configuration object
   - **vModel:** not yet implemented
